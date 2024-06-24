@@ -1,0 +1,134 @@
+{% load static %}
+<html>
+  <head>
+    <link rel="icon" href="{% static 'images/favicon.png' %}">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+    <style>
+        /* @media (max-width: 767px) {
+            .d-md-block .col-md-6.d-none {
+                display: none;
+            }
+        } */
+        .vertical-center {
+            min-height: 100vh; /* Use at least 100% of the viewport height */
+            display: flex;
+            align-items: center; /* Align items vertically */
+            justify-content: center; /* Center content horizontally */
+        }
+    </style>
+  </head>  
+
+
+<body class="" style="background-color: #A4DC8A;">
+  <!-- <section class="vh-100" style="background-color: #1b5e20;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-xl-10">
+          <div class="card" >
+            <div class="row g-0">
+              <div class="col-md-6 col-lg-5 d-md-block d-none">
+                <img src="{% static 'images/login-image.jpg' %}"
+                  alt="login form" class="img-fluid" style="height: 100%" />
+              </div>
+              <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                <div class="card-body p-4 p-lg-5 text-black">
+  
+                  <form action="{% url 'user_login' %}" method="post">
+                    {% csrf_token %}
+                    {% if error_message %}
+                      <p class="bg-danger p-d ml-b">{{ error_message }}</p>
+                    {% endif %}
+  
+                    <div class="d-flex align-items-center mb-3 pb-1">
+                      <img src="{% static 'images/favicon.png' %}" style="width: 50px">
+                      <span class="h2 fw-bold mt-2 mb-0" style="color: #1b5e20">AGRO FACE</span>
+                    </div>
+  
+                    <h6 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h6>
+  
+                    <div class="form-outline mb-2">
+                      <label class="form-label" for="username">Username</label>
+                      <input type="text" name="username" class="form-control form-control-lg" />
+                    </div>
+  
+                    <div class="form-outline mb-2">
+                      <label class="form-label" for="password">Password</label>
+                      <input type="password" name="password" class="form-control form-control-lg" />
+                    </div>
+  
+                    <div class="pt-1 mb-4">
+                      <input name="login" type="submit" value="Login" class="btn btn-dark btn-lg btn-block" />
+                    </div>
+  
+                    
+                    <p class="mb-2 pb-lg-2" >Don't have an account? <a href="{% url 'user_register' %}"
+                        style="color: #1b5e20;">Register here</a></p>
+                  </form>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+
+  
+  <!-- Login 13 - Bootstrap Brain Component -->
+    <section class="vertical-center py-3 py-md-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+                    <div class="card border border-light-subtle rounded-3 shadow-sm">
+                        <div class="card-body p-3 p-md-4 p-xl-5">
+                            <div class="text-center mb-3">
+                                <!-- <a href="#!">
+                                <img src="./assets/img/bsb-logo.svg" alt="BootstrapBrain Logo" width="175" height="57">
+                                </a> -->
+                                <h3>Clean City</h3>
+                            </div>
+                            <h2 class="fs-6 fw-normal text-center text-secondary mb-4">Sign in to your account</h2>
+                            <form action="{% url 'company_login' %}" method="post">
+                                {% csrf_token %}
+                                {% if error_message %}
+                                <p class="bg-danger p-d ml-b">{{ error_message }}</p>
+                                {% endif %}
+                                <div class="row gy-2 overflow-hidden">
+                                    <div class="col-12">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" name="username" class="form-control form-control-lg" autocomplete="off"/>
+                                            <label for="email" class="form-label">Username</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating mb-3">
+                                            <input type="password" name="password" class="form-control form-control-lg" />
+                                            <label for="password" class="form-label">Password</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="d-grid my-3">
+                                            <button class="btn btn-primary btn-lg" style="background-color: #A4DC8A; border: 1px solid #A4DC8A;" type="submit">Log in</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <p class="m-0 text-secondary text-center">Don't have an account? <a href="{% url 'company_register' %}" style="color: #A4DC8A;" class=" text-decoration-none">Sign up</a></p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+    
+ 
+
+</html>

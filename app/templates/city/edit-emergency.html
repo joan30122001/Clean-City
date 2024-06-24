@@ -1,0 +1,95 @@
+{% extends '_partials/base1.html' %}
+{% load static %}
+{% load i18n %}
+
+
+{% block content %}
+    <style>
+        .status-done {
+            color: green;
+        }
+        .status-build {
+            color: orange;
+        }
+
+        .status-initiated {
+            color: red;
+        }
+    </style>
+
+    <!-- <div id="" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full" data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full"> -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+                <div class="page-breadcrumb">
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb mb-0 d-flex align-items-center">
+                                <li class="breadcrumb-item"><a href="index.html" class="link"><i class="mdi mdi-home-outline fs-4"></i></a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                                </ol>
+                            </nav>
+                            <h1 class="mb-0 fw-bold">Edit Emergency</h1> 
+                        </div>
+                        <div class="col-6">
+                            <!-- <div class="text-end upgrade-btn">
+                                <a href="https://www.wrappixel.com/templates/flexy-bootstrap-admin-template/" class="btn btn-primary text-white"
+                                    target="_blank">Upgrade to Pro</a>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Container fluid  -->
+                <!-- ============================================================== -->
+                <div class="container-fluid">
+                    <!-- ============================================================== -->
+                    <!-- Sales chart -->
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form method="post" enctype="multipart/form-data" action="{% url 'edit_emergency' emergency_collection.id %}">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label for="description">Description:</label>
+                                            <textarea id="description" name="description" class="form-control">{{ emergency_collection.description }}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="town_street">Town & Street:</label>
+                                            <select id="town_street" name="town_street" class="form-control">
+                                                {% for town, name in emergency_collection.TOWN_CHOICES %}
+                                                    <option value="{{ town }}" {% if emergency_collection.town_street == town %}selected{% endif %}>{{ name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="street_detail">Street Detail:</label>
+                                            <input type="text" id="street_detail" name="street_detail" class="form-control" value="{{ emergency_collection.street_detail }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="price">Price:</label>
+                                            <input type="text" id="price" name="price" class="form-control" value="{{ emergency_collection.price }}" onclick="if(this.value == '{{ emergency_collection.price }}') { this.value = ''; }">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="paid">Paid:</label>
+                                            <input type="checkbox" id="paid" name="paid" class="form-check-input" {% if emergency_collection.paid %}checked{% endif %}>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Add Price</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- </div> -->
+
+{% endblock content %}

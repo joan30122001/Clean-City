@@ -1,0 +1,83 @@
+{% extends '_partials/base.html' %}
+{% load static %}
+{% load i18n %}
+
+
+{% block content %}
+    <style>
+        .status-done {
+            color: green;
+        }
+        .status-build {
+            color: orange;
+        }
+
+        .status-initiated {
+            color: red;
+        }
+    </style>
+
+    <!-- <div id="" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full" data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full"> -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+                <div class="page-breadcrumb">
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb mb-0 d-flex align-items-center">
+                                <li class="breadcrumb-item"><a href="index.html" class="link"><i class="mdi mdi-home-outline fs-4"></i></a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                                </ol>
+                            </nav>
+                            <h1 class="mb-0 fw-bold">Pay Emergency</h1> 
+                        </div>
+                        <div class="col-6">
+                            <!-- <div class="text-end upgrade-btn">
+                                <a href="https://www.wrappixel.com/templates/flexy-bootstrap-admin-template/" class="btn btn-primary text-white"
+                                    target="_blank">Upgrade to Pro</a>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Container fluid  -->
+                <!-- ============================================================== -->
+                <div class="container-fluid">
+                    <!-- ============================================================== -->
+                    <!-- Sales chart -->
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form method="post" enctype="multipart/form-data" action="{% url 'handle_payment' collection.id %}">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label for="price">Pice:</label>
+                                            <input type="text" id="price" name="price" class="form-control" disabled="disabled" value="{{ collection.price }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="payment method">Payment method:</label>
+                                            <select id="payment method" name="payment method" class="form-control">
+                                                <option value="">MonetBill</option>
+                                                <option value="">Orange Money</option>
+                                                <option value="">MTN Mobile Money</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Confirm Payment</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- </div> -->
+
+{% endblock content %}

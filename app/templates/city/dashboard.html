@@ -1,0 +1,143 @@
+{% extends '_partials/base.html' %}
+{% load static %}
+{% load i18n %}
+
+
+{% block content %}
+    <style>
+        .status-done {
+            color: green;
+        }
+        .status-build {
+            color: orange;
+        }
+
+        .status-initiated {
+            color: red;
+        }
+    </style>
+
+    <!-- <div id="" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full" data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full"> -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+                <div class="page-breadcrumb">
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb mb-0 d-flex align-items-center">
+                                <li class="breadcrumb-item"><a href="index.html" class="link"><i class="mdi mdi-home-outline fs-4"></i></a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                                </ol>
+                            </nav>
+                            <h1 class="mb-0 fw-bold">Dashboard</h1> 
+                        </div>
+                        <div class="col-6">
+                            <!-- <div class="text-end upgrade-btn">
+                                <a href="https://www.wrappixel.com/templates/flexy-bootstrap-admin-template/" class="btn btn-primary text-white"
+                                    target="_blank">Upgrade to Pro</a>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Container fluid  -->
+                <!-- ============================================================== -->
+                <div class="container-fluid">
+                    <!-- ============================================================== -->
+                    <!-- Sales chart -->
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card" style="border: 2px solid rgb(230, 179, 69);">
+                                <div class="card-body">
+                                    <p>Collection Service Plan</p>
+                                    <h4 style="color: rgb(230, 179, 69);">{{user.profile.frequency}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card" style="border: 2px solid rgb(6, 165, 32);">
+                                <div class="card-body">
+                                    <p>Emergency Collection</p>
+                                    <h4 style="color: rgb(6, 165, 32);">{{all_emaregency}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card" style="border: 2px solid rgb(51, 20, 102);">
+                                <div class="card-body">
+                                    <p>Total Paid</p>
+                                    <h4 style="color: rgb(51, 20, 102);"> {{price}} </h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                        
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <!-- <h4 class="card-title">Default Table</h4> -->
+                                        <!-- <h6 class="card-subtitle">Using the most basic table markup, here’s how
+                                            <code>.table</code>-based tables look in Bootstrap. All table styles are inherited
+                                            in Bootstrap 4, meaning any nested tables will be styled in the same manner as the
+                                            parent.</h6> -->
+                                        <h6 class="card-title m-t-40"><i
+                                                class="m-r-5 font-18 mdi mdi-numeric-1-box-multiple-outline"></i> Emmergency Collection </h6><br><br>
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Image</th>
+                                                        <!-- <th scope="col">Username</th> -->
+                                                        <th scope="col">Description</th>
+                                                        <th scope="col">Town & Street</th>
+                                                        <th scope="col">Street Detail</th>
+                                                        <th scope="col">Status</th>
+                                                        <th scope="col">Price</th>
+                                                        <th scope="col">Date</th>
+                                                        <th scope="col">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for collection in collections %}
+                                                        <tr>
+                                                            <th scope="row"><img src="{{ collection.image.url }}" alt="Emergency Image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;"></th>
+                                                            <!-- <td>{{ collection.user.username }}</td> -->
+                                                            <td>{{ collection.description|truncatechars:100 }}</td>
+                                                            <td>{{ collection.town_street }}</td>
+                                                            <td>{{ collection.street_detail }}</td>
+                                                            <td class="{% if collection.paid and collection.price %}status-done{% elif collection.price %}status-build{% else %}status-initiated{% endif %}">{% if collection.paid and collection.price %}Done{% elif collection.price %}Build{% else %}Initiated{% endif %}</td>
+                                                            <td>{{ collection.price|default_if_none:"00" }} XAF</td>
+                                                            <td>{{ collection.created_at|date:"Y-m-d H:i" }}</td>
+                                                            <!-- <td><a href="" class="btn btn-primary">Pay</a></td> -->
+                                                            <td>
+                                                                {% if collection.paid %}
+                                                                <i class="m-r-10 mdi mdi-check" style="color: green; font-size: 20px;"></i>
+                                                                {% elif collection.price %}
+                                                                    <a href="{% url 'handle_payment' collection.id %}" class="btn btn-primary">Pay</a>
+                                                                {% else %}
+                                                                    <a href="" class="btn btn-primary disabled" disabled="disabled">Pay</a>
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    <!-- Modal -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock content %}

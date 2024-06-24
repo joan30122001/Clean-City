@@ -1,0 +1,95 @@
+{% load static %}
+
+<style>
+    /* Floating Action Button Style */
+.floating-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 15px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+    border: none;
+    text-decoration: none;
+    z-index: 1000;
+}
+.floating-btn:hover{
+    color: #fff;
+}
+
+/* .floating-btn:hover, .floating-btn:focus {
+    background-color: #0056b3; 
+    color: white; 
+    text-decoration: none;
+    outline: none; 
+} */
+
+</style>
+<!-- <div class="preloader">
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+    </div>
+</div>
+<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+    data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full"> -->
+    <!-- ============================================================== -->
+    <!-- Topbar header - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    
+    <!-- ============================================================== -->
+    <!-- End Topbar header -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Left Sidebar - style you can find in sidebar.scss  -->
+    <!-- ============================================================== -->
+    <a href="{% url 'illegal-deposit' %}" class="floating-btn btn btn-danger">Report Illegal Deposit</a>
+
+    <aside class="left-sidebar" data-sidebarbg="skin6">
+        <!-- Sidebar scroll-->
+        <div class="scroll-sidebar">
+            <!-- Sidebar navigation-->
+            <nav class="sidebar-nav">
+                <ul id="sidebarnav">
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                            href="{% url 'dashboard' %}" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span
+                                class="hide-menu">Dashboard</span></a></li>
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                            href="{% url 'profile' %}" aria-expanded="false"><i
+                                class="mdi mdi-account-network"></i><span class="hide-menu">Profile</span></a></li>
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                            href="{% url 'emergency' %}" aria-expanded="false"><i class="mdi mdi-alert-box"></i><span
+                                class="hide-menu">Emergency</span></a></li>
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                            href="{% url 'submit_payment' %}" aria-expanded="false"><i class="mdi mdi-cash-100"></i><span
+                                class="hide-menu">Payment</span></a></li>
+                    <!-- <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                            href="table-basic.html" aria-expanded="false"><i class="mdi mdi-border-all"></i><span
+                                class="hide-menu">Table</span></a></li>
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                            href="icon-material.html" aria-expanded="false"><i class="mdi mdi-face"></i><span
+                                class="hide-menu">Icon</span></a></li>
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                            href="starter-kit.html" aria-expanded="false"><i class="mdi mdi-file"></i><span
+                                class="hide-menu">Blank</span></a></li>
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                            href="error-404.html" aria-expanded="false"><i class="mdi mdi-alert-outline"></i><span
+                                class="hide-menu">404</span></a></li> -->
+                    <li class="text-center p-40 upgrade-btn">
+                        <a href="{% url 'illegal-deposit' %}" class="btn d-block w-100 btn-danger text-white" >Report illegal Deposit</a>
+                    </li>
+                </ul>
+
+            </nav>
+            <!-- End Sidebar navigation -->
+        </div>
+        <!-- End Sidebar scroll-->
+    </aside>
+    <!-- ============================================================== -->
+    <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+    <!-- ============================================================== -->
+<!-- </div> -->

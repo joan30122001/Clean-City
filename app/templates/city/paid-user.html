@@ -1,0 +1,127 @@
+{% extends '_partials/base1.html' %}
+{% load static %}
+{% load i18n %}
+
+
+{% block content %}
+    <style>
+        .status-done {
+            color: green;
+        }
+        .status-build {
+            color: orange;
+        }
+
+        .status-initiated {
+            color: red;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- <div id="" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full" data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full"> -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+                <div class="page-breadcrumb">
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb mb-0 d-flex align-items-center">
+                                <li class="breadcrumb-item"><a href="index.html" class="link"><i class="mdi mdi-home-outline fs-4"></i></a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Active Client</li>
+                                </ol>
+                            </nav>
+                            <h1 class="mb-0 fw-bold">Active Client</h1> 
+                        </div>
+                        <div class="col-6">
+                            <!-- <div class="text-end upgrade-btn">
+                                <a href="https://www.wrappixel.com/templates/flexy-bootstrap-admin-template/" class="btn btn-primary text-white"
+                                    target="_blank">Upgrade to Pro</a>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Container fluid  -->
+                <!-- ============================================================== -->
+                <div class="container-fluid">
+                    <!-- ============================================================== -->
+                    <!-- Sales chart -->
+                    <!-- ============================================================== -->
+                      
+            
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <!-- <h4 class="card-title">Default Table</h4> -->
+                                        <!-- <h6 class="card-subtitle">Using the most basic table markup, here’s how
+                                            <code>.table</code>-based tables look in Bootstrap. All table styles are inherited
+                                            in Bootstrap 4, meaning any nested tables will be styled in the same manner as the
+                                            parent.</h6> -->
+                                        <h6 class="card-title m-t-40"><i
+                                                class="m-r-5 font-18 mdi mdi-numeric-1-box-multiple-outline"></i> Active Client </h6><br><br>
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Image</th>
+                                                        <!-- <th scope="col">Username</th> -->
+                                                        <th scope="col">Name</th>
+                                                        <th scope="col">Email</th>
+                                                        <th scope="col">Phone</th>
+                                                        <th scope="col">frequency</th>
+                                                        <th scope="col">Town & Street</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for user in users %}
+                                                        <tr>
+                                                            <th scope="row"><img src="{{ user.profile.profile_image.url }}" alt="Emergency Image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;" data-toggle="modal" data-target="#imageModal" onclick="setImageModal('{{ collections.image.url }}')"></th>
+                                                            <!-- <td>{{ collection.user.username }}</td> -->
+                                                            <td>{{ user.username }}</td>
+                                                            <td>{{ user.email }}</td>
+                                                            <td>{{ user.profile.phone_number }}</td>
+                                                            <td>{{ user.profile.frequency }}</td>
+                                                            <td>{{ user.profile.town_street }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                    <h5 class="modal-title" id="imageModalLabel">Emergency Image</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                    <img src="" id="modalImage" style="width: 100%;"> <!-- Image src will be set dynamically -->
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+  
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- </div> -->
+    
+
+{% endblock content %}
