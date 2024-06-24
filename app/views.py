@@ -404,7 +404,7 @@ def send_emergency_collection_email(emergency_collection):
         subject,
         message,
         'digital.studios587@gmail.com',
-        ['ngounoujoan@gmail.com'],  # Replace with admin email
+        ['xaviemiello@gmail.com'],  # Replace with admin email
     )
     # if emergency_collection.image:
     #     email.attach(emergency_collection.image.name, emergency_collection.image.read(), emergency_collection.image.content_type)
@@ -475,7 +475,7 @@ def send_illegal_deposit_email(illegal_deposit):
         subject,
         message,
         'digital.studios587@gmail.com',
-        ['ngounoujoan@gmail.com'],  # Replace with admin email
+        ['xaviemiello@gmail.com'],  # Replace with admin email
     )
 
     if illegal_deposit.image:

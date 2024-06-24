@@ -4,9 +4,9 @@ from . import views
 from .views import ProfileUpdateView, CompanyProfileUpdateView, EmergencyCollectionEditView, line_chart
 
 urlpatterns = [
-    path('', views.user_register, name='user_register'),
+    path('register', views.user_register, name='user_register'),
     path('company-register/', views.company_register, name='company_register'),
-    path('login/', views.user_login, name='user_login'),
+    path('', views.user_login, name='user_login'),
     path('company-login/', views.company_login, name='company_login'),
     path('logout/', views.user_logout, name='user_logout'),
     path('logouts/', views.company_logout, name='company_logout'),
