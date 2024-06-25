@@ -12,6 +12,7 @@ from django.core.mail import EmailMessage
 import mimetypes
 from django.views import View
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 
 
 
@@ -120,7 +121,7 @@ def company_dashboard(request):
 
     all_deposit = IllegalDeposit.objects.filter(town_street__startswith=user_location).count()
 
-    users_location = request.user.profile.town_street
+    users_location = request.user.profiles.location
     users_with_payments = User.objects.filter(
         profile__town_street__startswith=user_location,
         payments__paid=True
@@ -192,63 +193,96 @@ def user_register(request):
 
 
 
-def company_register(request):
-    # if this is a POST request we need to process the form data
-    template = 'user/company-register.html'
+# def company_register(request):
+#     # if this is a POST request we need to process the form data
+#     template = 'user/company-register.html'
    
+#     if request.method == 'POST':
+#         # create a form instance and populate it with data from the request:
+#         forms = CompanyRegisterForm(request.POST)
+#         # check whether it's valid:
+#         if forms.is_valid():
+#             if User.objects.filter(username=forms.cleaned_data['username']).exists():
+#                 return render(request, template, {
+#                     'forms': forms,
+#                     'error_message': 'Username already exists.'
+#                 })
+#             elif User.objects.filter(email=forms.cleaned_data['email']).exists():
+#                 return render(request, template, {
+#                     'forms': forms,
+#                     'error_message': 'Email already exists.'
+#                 })
+#             elif forms.cleaned_data['password'] != forms.cleaned_data['password_repeat']:
+#                 return render(request, template, {
+#                     'forms': forms,
+#                     'error_message': 'Passwords do not match.'
+#                 })
+#             else:
+#                 # Create the user:
+#                 user = User.objects.create_user(
+#                     forms.cleaned_data['username'],
+#                     forms.cleaned_data['email'],
+#                     forms.cleaned_data['password'],
+#                 )
+
+#                 # user.phone_number = forms.cleaned_data['phone_number']
+#                 # user.town_street = forms.cleaned_data['town_street']
+#                 # user.street_detail = forms.cleaned_data['street_detail']
+#                 # user.frequency = forms.cleaned_data['frequency']
+#                 # user.save()
+
+#                 user_profile = CompanyProfile(
+#                     user=user,
+#                     phone_number=forms.cleaned_data.get('phone_number', ''),
+#                     company_name=forms.cleaned_data['company_name'],
+#                     location=forms.cleaned_data['location']
+#                 )
+#                 user_profile.save()
+               
+#                 # Login the user
+#                 login(request, user)
+               
+#                 # redirect to accounts page:
+#                 return redirect('company_dashboard')
+
+#    # No post data availabe, let's just show the page.
+#     else:
+#         forms = CompanyRegisterForm()
+
+#     return render(request, template, {'forms': forms})
+
+def company_register(request):
+    template = 'user/company-register.html'
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
         forms = CompanyRegisterForm(request.POST)
-        # check whether it's valid:
         if forms.is_valid():
-            if User.objects.filter(username=forms.cleaned_data['username']).exists():
-                return render(request, template, {
-                    'forms': forms,
-                    'error_message': 'Username already exists.'
-                })
-            elif User.objects.filter(email=forms.cleaned_data['email']).exists():
-                return render(request, template, {
-                    'forms': forms,
-                    'error_message': 'Email already exists.'
-                })
-            elif forms.cleaned_data['password'] != forms.cleaned_data['password_repeat']:
-                return render(request, template, {
-                    'forms': forms,
-                    'error_message': 'Passwords do not match.'
-                })
-            else:
-                # Create the user:
-                user = User.objects.create_user(
-                    forms.cleaned_data['username'],
-                    forms.cleaned_data['email'],
-                    forms.cleaned_data['password'],
-                )
+            username = forms.cleaned_data['username']
+            email = forms.cleaned_data['email']
+            password = forms.cleaned_data['password']
+            password_repeat = forms.cleaned_data['password_repeat']
 
-                # user.phone_number = forms.cleaned_data['phone_number']
-                # user.town_street = forms.cleaned_data['town_street']
-                # user.street_detail = forms.cleaned_data['street_detail']
-                # user.frequency = forms.cleaned_data['frequency']
-                # user.save()
+            with transaction.atomic():  # Ensures atomicity of user and profile creation
+                if User.objects.filter(username=username).exists():
+                    forms.add_error('username', 'Username already exists.')
+                elif User.objects.filter(email=email).exists():
+                    forms.add_error('email', 'Email already exists.')
+                elif password != password_repeat:
+                    forms.add_error('password_repeat', 'Passwords do not match.')
+                else:
+                    user = User.objects.create_user(username, email, password)
+                    user_profile = CompanyProfile.objects.create(
+                        user=user,
+                        phone_number=forms.cleaned_data.get('phone_number', ''),
+                        company_name=forms.cleaned_data['company_name'],
+                        location=forms.cleaned_data['location']
+                    )
+                    login(request, user)  # Make sure to log in the newly created user
+                    return redirect('company_dashboard')
 
-                user_profile = CompanyProfile(
-                    user=user,
-                    phone_number=forms.cleaned_data.get('phone_number', ''),
-                    company_name=forms.cleaned_data['company_name'],
-                    location=forms.cleaned_data['location']
-                )
-                user_profile.save()
-               
-                # Login the user
-                login(request, user)
-               
-                # redirect to accounts page:
-                return redirect('company_dashboard')
-
-   # No post data availabe, let's just show the page.
+        return render(request, template, {'forms': forms})
     else:
         forms = CompanyRegisterForm()
-
-    return render(request, template, {'forms': forms})
+        return render(request, template, {'forms': forms})
 
 
 
@@ -344,31 +378,56 @@ class ProfileUpdateView(LoginRequiredMixin, TemplateView):
 
 
 
+# class CompanyProfileUpdateView(LoginRequiredMixin, TemplateView):
+#     users_form = CompanyUserForm
+#     profiles_form = CompanyProfileForm
+#     template_name = 'user/company-profile.html'
+
+#     def post(self, request):
+#         CompanyProfile.objects.get_or_create(user=request.user)
+#         post_data = request.POST or None
+#         file_data = request.FILES or None
+
+#         users_form = CompanyUserForm(post_data, instance=request.user)
+#         profiles_form = CompanyProfileForm(post_data, file_data, instance=request.user.profiles)
+
+#         if users_form.is_valid() and profiles_form.is_valid():
+#             users_form.save()
+#             profiles_form.save()
+#             messages.error(request, 'Your profile is updated successfully!')
+#             return HttpResponseRedirect(reverse_lazy('company_profile'))
+
+#         context = self.get_context_data(
+#                                         users_form=users_form,
+#                                         profiles_form=profiles_form
+#                                     )
+
+#         return self.render_to_response(context)     
+
+#     def get(self, request, *args, **kwargs):
+#         return self.post(request, *args, **kwargs)
+
 class CompanyProfileUpdateView(LoginRequiredMixin, TemplateView):
+    template_name = 'user/company-profile.html'
     users_form = CompanyUserForm
     profiles_form = CompanyProfileForm
-    template_name = 'user/company-profile.html'
 
-    def post(self, request):
-        CompanyProfile.objects.get_or_create(user=request.user)
+    def post(self, request, *args, **kwargs):
+        profile, created = CompanyProfile.objects.get_or_create(user=request.user)
         post_data = request.POST or None
         file_data = request.FILES or None
 
         users_form = CompanyUserForm(post_data, instance=request.user)
-        profiles_form = CompanyProfileForm(post_data, file_data, instance=request.user.profiles)
+        profiles_form = CompanyProfileForm(post_data, file_data, instance=profile)
 
         if users_form.is_valid() and profiles_form.is_valid():
             users_form.save()
             profiles_form.save()
-            messages.error(request, 'Your profile is updated successfully!')
+            messages.success(request, 'Your profile has been updated successfully!')
             return HttpResponseRedirect(reverse_lazy('company_profile'))
 
-        context = self.get_context_data(
-                                        users_form=users_form,
-                                        profiles_form=profiles_form
-                                    )
-
-        return self.render_to_response(context)     
+        context = self.get_context_data(users_form=users_form, profiles_form=profiles_form)
+        return self.render_to_response(context)
 
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
@@ -544,7 +603,7 @@ def submit_payment(request):
 
 def find_paid_users(request):
     # Get the town_street prefix from the logged-in user's profile
-    user_location = request.user.profile.town_street
+    user_location = request.user.profiles.location
 
     # Find all users whose profiles have a town_street starting with the logged-in user's location
     # and who have at least one payment record where paid=True
