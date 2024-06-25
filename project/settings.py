@@ -152,3 +152,4 @@ EMAIL_HOST_USER = 'digital.studios587@gmail.com'
 EMAIL_HOST_PASSWORD = 'owrwoodimalhcgmk'
 DEFAULT_FROM_EMAIL = 'digital.studios587@gmail.com'
 # ADMIN_EMAIL = 'admin@example.com' 
+

@@ -11,6 +11,7 @@ from django.urls import reverse_lazy
 from django.core.mail import EmailMessage
 import mimetypes
 from django.views import View
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -20,6 +21,7 @@ def home(request):
 
 
 
+@login_required(login_url='/')
 def dashboard(request):
     # collections = EmergencyCollection.objects.all() 
     collections = EmergencyCollection.objects.filter(user=request.user) 
@@ -106,6 +108,7 @@ def line_chart(request):
 
 
 
+@login_required(login_url='/company-login/')
 def company_dashboard(request):
     # collection = EmergencyCollection.objects.all() 
     user_location = request.user.profiles.location
